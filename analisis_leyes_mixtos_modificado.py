@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 def main():
     st.set_page_config(layout="wide")
-    st.title("Análisis de Leyes de Sulfuros")
+    st.title("Análisis de Leyes de Mixto")
 
     # Cargar datos
     try:
