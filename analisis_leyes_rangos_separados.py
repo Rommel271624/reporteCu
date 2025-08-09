@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def estilo_tabla(df, color_header="#4CAF50"):
+def estilo_tabla(df):
     return (
         df.style
         .format(precision=4)
@@ -10,8 +10,8 @@ def estilo_tabla(df, color_header="#4CAF50"):
             {'selector': 'th',
              'props': [
                  ('text-align', 'center'),
-                 ('background-color', color_header),
-                 ('color', 'white'),
+                 ('background-color', '#000000'),  # Fondo negro
+                 ('color', 'white'),               # Texto blanco
                  ('font-weight', 'bold'),
                  ('white-space', 'nowrap')
              ]},
