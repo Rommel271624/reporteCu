@@ -2,21 +2,6 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def estilo_tabla(df):
-    return (
-        df.style
-        .format(precision=4)
-        .set_table_styles([
-            {'selector': 'th',
-             'props': [('text-align', 'center'),
-                       ('background-color', '#4CAF50'),
-                       ('color', 'white'),
-                       ('font-weight', 'bold')]},
-            {'selector': 'td',
-             'props': [('text-align', 'center')]}
-        ])
-        .set_properties(**{'text-align': 'center'})
-    )
 def cargar_datos(nombre_archivo):
     try:
         df = pd.read_csv(nombre_archivo, sep=';').dropna(axis=1, how='all')
@@ -84,7 +69,23 @@ def calcular_resumen(df, ley_alta, ley_media, ley_baja, nombre):
         'Promedio Ponderado Au g/TM': "{:.4f}",
         'Promedio Ponderado Ag g/TM': "{:.4f}"
     }))
-
+    
+def estilo_tabla(df):
+    return (
+        df.style
+        .format(precision=4)
+        .set_table_styles([
+            {'selector': 'th',
+             'props': [('text-align', 'center'),
+                       ('background-color', '#4CAF50'),
+                       ('color', 'white'),
+                       ('font-weight', 'bold')]},
+            {'selector': 'td',
+             'props': [('text-align', 'center')]}
+        ])
+        .set_properties(**{'text-align': 'center'})
+    )
+    
     fig, ax = plt.subplots(figsize=(2, 1))
     ax.pie(
         resumen_df.iloc[:-1]['Total TMS'],
@@ -100,7 +101,7 @@ def calcular_resumen(df, ley_alta, ley_media, ley_baja, nombre):
 
 def main():
     st.set_page_config(layout="wide")
-    st.title("Análisis de Leyes de Sulfuros y Mixto (rangos separados)")
+    st.title("Análisis de Leyes de Sulfuros y Mixto")
 
     # Sulfuros
     df_s = cargar_datos("sulfuros.csv")
