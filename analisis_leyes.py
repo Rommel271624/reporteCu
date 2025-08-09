@@ -93,9 +93,9 @@ def main_mixto():
             return
 
     # Filtrar por categorías
-    ley_alta = df[df['%Cu'] > 1]
-    ley_media = df[(df['%Cu'] >= 0.8) & (df['%Cu'] <= 1)]
-    ley_baja = df[(df['%Cu'] >= 0.1) & (df['%Cu'] < 0.8)]
+    ley_alta = df[df['%Cu'] > 3]
+    ley_media = df[(df['%Cu'] >= 2) & (df['%Cu'] <= 3)]
+    ley_baja = df[(df['%Cu'] >= 0.1) & (df['%Cu'] < 2)]
 
     def resumen_categoria(nombre, subset):
         total_tmh = subset['TMH'].sum()
