@@ -58,12 +58,13 @@ def calcular_resumen(df, nombre):
         'Promedio Ponderado Ag g/TM': "{:.4f}"
     }))
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(2,1))
     ax.pie(
         resumen_df.iloc[:-1]['Total TMS'],
         labels=resumen_df.iloc[:-1]['Categoría'],
         autopct='%1.1f%%',
-        startangle=90
+        startangle=90,
+        textprops={'fontsize':3}
     )
     ax.axis('equal')
     st.pyplot(fig)
@@ -107,12 +108,13 @@ def main():
     }))
 
     # Gráfico de pastel para resumen general
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(2,1))
     ax.pie(
         resumen_general.iloc[:-1]['Total TMS'],
         labels=resumen_general.iloc[:-1]['Tipo de Material'],
         autopct='%1.1f%%',
-        startangle=90
+        startangle=90,
+        textprops={'fontsize':3}
     )
     ax.axis('equal')
     st.pyplot(fig)
