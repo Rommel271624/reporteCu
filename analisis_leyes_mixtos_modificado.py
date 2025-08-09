@@ -68,7 +68,8 @@ def main():
         resumen_df.iloc[:-1]['Total TMS'],
         labels=resumen_df.iloc[:-1]['Categoría'],
         autopct='%1.1f%%',
-        startangle=90
+        startangle=90,
+         textprops={'fontsize':8}
     )
     ax.axis('equal')
     st.pyplot(fig)
