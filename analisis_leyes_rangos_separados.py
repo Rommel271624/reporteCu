@@ -70,12 +70,13 @@ def calcular_resumen(df, ley_alta, ley_media, ley_baja, nombre, color_header):
     st.dataframe(estilo_tabla(resumen_df, color_header), use_container_width=True)
 
     st.markdown(f"<h3 style='text-align:center; color:{color_header};'>Gráfico de Pastel - {nombre}</h3>", unsafe_allow_html=True)
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(2,1))
     ax.pie(
         resumen_df.iloc[:-1]['Total TMS'],
         labels=resumen_df.iloc[:-1]['Categoría'],
         autopct='%1.1f%%',
-        startangle=90
+        startangle=90,
+        textprops={'fontsize':3}
     )
     ax.axis('equal')
     st.pyplot(fig)
@@ -118,12 +119,13 @@ def main():
     st.markdown("<h2 style='text-align:center; color:#2ca02c;'>Tabla Resumen General</h2>", unsafe_allow_html=True)
     st.dataframe(estilo_tabla(resumen_general, "#2ca02c"), use_container_width=True)
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(2,1))
     ax.pie(
         resumen_general.iloc[:-1]['Total TMS'],
         labels=resumen_general.iloc[:-1]['Tipo de Material'],
         autopct='%1.1f%%',
-        startangle=90
+        startangle=90,
+        textprops={'fontsize':3}
     )
     ax.axis('equal')
     st.pyplot(fig)
