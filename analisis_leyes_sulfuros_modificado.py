@@ -69,7 +69,7 @@ def main():
         labels=resumen_df.iloc[:-1]['Categoría'],
         autopct='%1.1f%%',
         startangle=90,
-        textprops={'fontsize':8}
+        textprops={'fontsize':6}
     )
     ax.axis('equal')
     st.pyplot(fig)
