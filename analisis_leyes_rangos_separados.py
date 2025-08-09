@@ -8,12 +8,17 @@ def estilo_tabla(df, color_header="#4CAF50"):
         .format(precision=4)
         .set_table_styles([
             {'selector': 'th',
-             'props': [('text-align', 'center'),
-                       ('background-color', color_header),
-                       ('color', 'white'),
-                       ('font-weight', 'bold')]},
+             'props': [
+                 ('text-align', 'center'),
+                 ('background-color', color_header),
+                 ('color', 'white'),
+                 ('font-weight', 'bold'),
+                 ('white-space', 'nowrap')  # Evita saltos de línea
+             ]},
             {'selector': 'td',
-             'props': [('text-align', 'center')]}
+             'props': [
+                 ('text-align', 'center')
+             ]}
         ])
         .set_properties(**{'text-align': 'center'})
     )
