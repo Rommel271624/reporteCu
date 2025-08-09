@@ -10,7 +10,7 @@ def main():
     try:
         df = pd.read_csv("mixto.csv", sep=';').dropna(axis=1, how='all')
     except FileNotFoundError:
-        st.error("No se encontró el archivo 'mixto.csv'. Asegúrate de subirlo al mismo directorio de la app.")
+        st.error("No se encontró el archivo 'sulfuros.csv'. Asegúrate de subirlo al mismo directorio de la app.")
         return
 
     # Verificar columnas necesarias
