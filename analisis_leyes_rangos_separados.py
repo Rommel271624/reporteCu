@@ -13,7 +13,7 @@ def estilo_tabla(df, color_header="#4CAF50"):
                  ('background-color', color_header),
                  ('color', 'white'),
                  ('font-weight', 'bold'),
-                 ('white-space', 'nowrap')  # Evita saltos de línea
+                 ('white-space', 'nowrap')
              ]},
             {'selector': 'td',
              'props': [
@@ -69,7 +69,7 @@ def calcular_resumen(df, ley_alta, ley_media, ley_baja, nombre, color_header):
     st.markdown(f"<h2 style='text-align:center; color:{color_header};'>Tabla Resumen: {nombre}</h2>", unsafe_allow_html=True)
     st.dataframe(estilo_tabla(resumen_df, color_header), use_container_width=True)
 
-    st.markdown(f"<h3 style='text-align:center; color:{color_header};'>Gráfico de Pastel - {nombre}</h3>", unsafe_allow_html=True)
+    st.markdown(f"<h3 style='text-align:center; color:{color_header};'>Gráfico de Mineral - {nombre}</h3>", unsafe_allow_html=True)
     fig, ax = plt.subplots(figsize=(2,1))
     ax.pie(
         resumen_df.iloc[:-1]['Total TMS'],
