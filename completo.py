@@ -74,10 +74,8 @@ def main():
     ax.axis('equal')
     st.pyplot(fig)
 
-if __name__ == "__main__":
-    main()
-def main():
-    st.set_page_config(layout="wide")
+if __name__ == "__mainl__":
+    mainl()
     st.title("Análisis de Leyes de Mixto")
 
     # Cargar datos
@@ -148,5 +146,5 @@ def main():
     ax.axis('equal')
     st.pyplot(fig)
 
-if __name__ == "__main__":
-    main()
+if __name__ == "__mainl__":
+    mainl()
