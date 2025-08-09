@@ -69,7 +69,7 @@ def main_sulfuros():
         labels=resumen_df.iloc[:-1]['Categoría'],
         autopct='%1.1f%%',
         startangle=90,
-        textprops={'fontsize':2}
+        textprops={'fontsize':3}
     )
     ax.axis('equal')
     st.pyplot(fig)
@@ -142,7 +142,7 @@ def main_mixto():
         labels=resumen_df.iloc[:-1]['Categoría'],
         autopct='%1.1f%%',
         startangle=90,
-          textprops={'fontsize':2}
+          textprops={'fontsize':3}
     )
     ax.axis('equal')
     st.pyplot(fig)
