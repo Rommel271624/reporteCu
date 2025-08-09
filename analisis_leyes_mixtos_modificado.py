@@ -63,7 +63,7 @@ def main():
     }))
 
     # Gráfica de pastel por cantidad de toneladas secas (TMS)
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(6, 4))
     ax.pie(
         resumen_df.iloc[:-1]['Total TMS'],
         labels=resumen_df.iloc[:-1]['Categoría'],
