@@ -1,3 +1,7 @@
+import streamlit as st
+import pandas as pd
+import matplotlib.pyplot as plt
+
 def estilo_tabla(df, color_header="#4CAF50"):
     return (
         df.style
@@ -59,3 +63,4 @@ def main():
 
     st.markdown("<h2 style='text-align:center; color:#2ca02c;'>Tabla Resumen General</h2>", unsafe_allow_html=True)
     st.dataframe(estilo_tabla(resumen_general, "#2ca02c"), use_container_width=True)
+
