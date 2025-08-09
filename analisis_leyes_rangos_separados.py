@@ -84,7 +84,7 @@ def calcular_resumen(df, ley_alta, ley_media, ley_baja, nombre, color_header):
 
 def main():
     st.set_page_config(layout="wide")
-    st.title("Análisis de Leyes de Sulfuros y Mixto (rangos separados)")
+    st.title("TM de Mineral Sulfuros y Mixto")
 
     # ==== Sulfuros ====
     df_s = cargar_datos("sulfuros.csv")
