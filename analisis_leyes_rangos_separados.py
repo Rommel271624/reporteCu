@@ -70,22 +70,6 @@ def calcular_resumen(df, ley_alta, ley_media, ley_baja, nombre):
         'Promedio Ponderado Ag g/TM': "{:.4f}"
     }))
     
-def estilo_tabla(df):
-    return (
-        df.style
-        .format(precision=4)
-        .set_table_styles([
-            {'selector': 'th',
-             'props': [('text-align', 'center'),
-                       ('background-color', '#4CAF50'),
-                       ('color', 'white'),
-                       ('font-weight', 'bold')]},
-            {'selector': 'td',
-             'props': [('text-align', 'center')]}
-        ])
-        .set_properties(**{'text-align': 'center'})
-    )
-    
     fig, ax = plt.subplots(figsize=(2, 1))
     ax.pie(
         resumen_df.iloc[:-1]['Total TMS'],
