@@ -2,6 +2,21 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
+def estilo_tabla(df):
+    return (
+        df.style
+        .format(precision=4)
+        .set_table_styles([
+            {'selector': 'th',
+             'props': [('text-align', 'center'),
+                       ('background-color', '#4CAF50'),
+                       ('color', 'white'),
+                       ('font-weight', 'bold')]},
+            {'selector': 'td',
+             'props': [('text-align', 'center')]}
+        ])
+        .set_properties(**{'text-align': 'center'})
+    )
 def cargar_datos(nombre_archivo):
     try:
         df = pd.read_csv(nombre_archivo, sep=';').dropna(axis=1, how='all')
