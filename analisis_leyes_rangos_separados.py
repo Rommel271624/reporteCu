@@ -1,6 +1,22 @@
-import streamlit as st
+ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+
+def estilo_tabla(df, color_header="#4CAF50"):
+    return (
+        df.style
+        .format(precision=4)
+        .set_table_styles([
+            {'selector': 'th',
+             'props': [('text-align', 'center'),
+                       ('background-color', color_header),
+                       ('color', 'white'),
+                       ('font-weight', 'bold')]},
+            {'selector': 'td',
+             'props': [('text-align', 'center')]}
+        ])
+        .set_properties(**{'text-align': 'center'})
+    )
 
 def cargar_datos(nombre_archivo):
     try:
@@ -18,23 +34,7 @@ def verificar_columnas(df):
             return False
     return True
 
-def calcular_resumen_sulfuros(df):
-    # Rangos exclusivos para Sulfuros
-    ley_alta = df[df['%Cu'] > 1.0]
-    ley_media = df[(df['%Cu'] >= 0.8) & (df['%Cu'] <= 1.0)]
-    ley_baja = df[(df['%Cu'] >= 0.1) & (df['%Cu'] < 0.8)]
-    
-    return calcular_resumen(df, ley_alta, ley_media, ley_baja, "Sulfuros")
-
-def calcular_resumen_mixto(df):
-    # Rangos exclusivos para Mixto (puedes ajustarlos)
-    ley_alta = df[df['%Cu'] > 3]
-    ley_media = df[(df['%Cu'] >= 2) & (df['%Cu'] <= 3)]
-    ley_baja = df[(df['%Cu'] >= 0.1) & (df['%Cu'] < 2)]
-    
-    return calcular_resumen(df, ley_alta, ley_media, ley_baja, "Mixto")
-
-def calcular_resumen(df, ley_alta, ley_media, ley_baja, nombre):
+def calcular_resumen(df, ley_alta, ley_media, ley_baja, nombre, color_header):
     def resumen_categoria(nombre_cat, subset):
         total_tmh = subset['TMH'].sum()
         total_tms = subset['TMS'].sum()
@@ -61,22 +61,16 @@ def calcular_resumen(df, ley_alta, ley_media, ley_baja, nombre):
         'Promedio Ponderado Au g/TM', 'Promedio Ponderado Ag g/TM'
     ])
 
-    st.subheader(f"Tabla Resumen: {nombre}")
-    st.dataframe(resumen_df.style.format({
-        'Total TMH': "{:.4f}",
-        'Total TMS': "{:.4f}",
-        'Promedio Ponderado %Cu': "{:.4f}",
-        'Promedio Ponderado Au g/TM': "{:.4f}",
-        'Promedio Ponderado Ag g/TM': "{:.4f}"
-    }))
-    
-    fig, ax = plt.subplots(figsize=(2, 1))
+    st.markdown(f"<h2 style='text-align:center; color:{color_header};'>Tabla Resumen: {nombre}</h2>", unsafe_allow_html=True)
+    st.dataframe(estilo_tabla(resumen_df, color_header), use_container_width=True)
+
+    st.markdown(f"<h3 style='text-align:center; color:{color_header};'>Gráfico de Pastel - {nombre}</h3>", unsafe_allow_html=True)
+    fig, ax = plt.subplots()
     ax.pie(
         resumen_df.iloc[:-1]['Total TMS'],
         labels=resumen_df.iloc[:-1]['Categoría'],
         autopct='%1.1f%%',
-        startangle=90,
-        textprops={'fontsize':3}
+        startangle=90
     )
     ax.axis('equal')
     st.pyplot(fig)
@@ -85,21 +79,27 @@ def calcular_resumen(df, ley_alta, ley_media, ley_baja, nombre):
 
 def main():
     st.set_page_config(layout="wide")
-    st.title("Análisis de Leyes de Sulfuros y Mixto")
+    st.title("Análisis de Leyes de Sulfuros y Mixto (rangos separados)")
 
-    # Sulfuros
+    # ==== Sulfuros ====
     df_s = cargar_datos("sulfuros.csv")
     if df_s is None or not verificar_columnas(df_s):
         return
-    total_tmh_s, total_tms_s, cu_s, au_s, ag_s = calcular_resumen_sulfuros(df_s)
+    ley_alta_s = df_s[df_s['%Cu'] > 1.0]
+    ley_media_s = df_s[(df_s['%Cu'] >= 0.8) & (df_s['%Cu'] <= 1.0)]
+    ley_baja_s = df_s[(df_s['%Cu'] >= 0.1) & (df_s['%Cu'] < 0.8)]
+    total_tmh_s, total_tms_s, cu_s, au_s, ag_s = calcular_resumen(df_s, ley_alta_s, ley_media_s, ley_baja_s, "Sulfuros", "#1f77b4")
 
-    # Mixto
+    # ==== Mixto ====
     df_m = cargar_datos("mixto.csv")
     if df_m is None or not verificar_columnas(df_m):
         return
-    total_tmh_m, total_tms_m, cu_m, au_m, ag_m = calcular_resumen_mixto(df_m)
+    ley_alta_m = df_m[df_m['%Cu'] > 3]
+    ley_media_m = df_m[(df_m['%Cu'] >= 2) & (df_m['%Cu'] <= 3)]
+    ley_baja_m = df_m[(df_m['%Cu'] >= 0.1) & (df_m['%Cu'] < 2)]
+    total_tmh_m, total_tms_m, cu_m, au_m, ag_m = calcular_resumen(df_m, ley_alta_m, ley_media_m, ley_baja_m, "Mixto", "#ff7f0e")
 
-    # Resumen general
+    # ==== Resumen General ====
     resumen_general = pd.DataFrame([
         ["Sulfuro", total_tmh_s, total_tms_s, cu_s, au_s, ag_s],
         ["Mixto", total_tmh_m, total_tms_m, cu_m, au_m, ag_m],
@@ -110,23 +110,15 @@ def main():
     ], columns=["Tipo de Material", "Total TMH", "Total TMS", "Promedio Ponderado %Cu",
                 "Promedio Ponderado Au g/TM", "Promedio Ponderado Ag g/TM"])
 
-    st.subheader("Tabla Resumen General (Sulfuros y Mixto):")
-    st.dataframe(resumen_general.style.format({
-        "Total TMH": "{:.4f}",
-        "Total TMS": "{:.4f}",
-        "Promedio Ponderado %Cu": "{:.4f}",
-        "Promedio Ponderado Au g/TM": "{:.4f}",
-        "Promedio Ponderado Ag g/TM": "{:.4f}"
-    }))
+    st.markdown("<h2 style='text-align:center; color:#2ca02c;'>Tabla Resumen General</h2>", unsafe_allow_html=True)
+    st.dataframe(estilo_tabla(resumen_general, "#2ca02c"), use_container_width=True)
 
-    # Gráfico de pastel resumen general
-    fig, ax = plt.subplots(figsize=(2,1))
+    fig, ax = plt.subplots()
     ax.pie(
         resumen_general.iloc[:-1]['Total TMS'],
         labels=resumen_general.iloc[:-1]['Tipo de Material'],
         autopct='%1.1f%%',
-        startangle=90,
-        textprops={'fontsize':3}
+        startangle=90
     )
     ax.axis('equal')
     st.pyplot(fig)
