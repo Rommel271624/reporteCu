@@ -45,28 +45,14 @@ def calcular_resumen(df, ley_alta, ley_media, ley_baja, nombre):
         ag_prom = (subset['Ag g/TM'] * subset['TMS']).sum() / total_tms if total_tms > 0 else 0
         return [nombre_cat, total_tmh, total_tms, cu_prom, au_prom, ag_prom]
 
-    # Ajuste especial para Mixto - Ley Alta
-    if nombre.lower() == "mixto":
-        total_tmh_alta = ley_alta['TMH'].sum() - 2350.53
-        total_tms_alta = ley_alta['TMS'].sum() - 2350.53
-        cu_prom_alta = (ley_alta['%Cu'] * ley_alta['TMS']).sum() / (total_tms_alta if total_tms_alta > 0 else 1)
-        au_prom_alta = (ley_alta['Au g/TM'] * ley_alta['TMS']).sum() / (total_tms_alta if total_tms_alta > 0 else 1)
-        ag_prom_alta = (ley_alta['Ag g/TM'] * ley_alta['TMS']).sum() / (total_tms_alta if total_tms_alta > 0 else 1)
-        resumen_data = [
-            ['Ley Alta', total_tmh_alta, total_tms_alta, cu_prom_alta, au_prom_alta, ag_prom_alta],
-            resumen_categoria('Ley Media', ley_media),
-            resumen_categoria('Ley Baja', ley_baja)
-        ]
-    else:
-        resumen_data = [
-            resumen_categoria('Ley Alta', ley_alta),
-            resumen_categoria('Ley Media', ley_media),
-            resumen_categoria('Ley Baja', ley_baja)
-        ]
+    resumen_data = [
+        resumen_categoria('Ley Alta', ley_alta),
+        resumen_categoria('Ley Media', ley_media),
+        resumen_categoria('Ley Baja', ley_baja)
+    ]
 
-    # Totales generales de la categoría
-    total_tmh = sum(row[1] for row in resumen_data)
-    total_tms = sum(row[2] for row in resumen_data)
+    total_tmh = df['TMH'].sum()
+    total_tms = df['TMS'].sum()
     cu_prom_total = (df['%Cu'] * df['TMS']).sum() / total_tms
     au_prom_total = (df['Au g/TM'] * df['TMS']).sum() / total_tms
     ag_prom_total = (df['Ag g/TM'] * df['TMS']).sum() / total_tms
@@ -142,4 +128,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
